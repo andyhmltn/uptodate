@@ -73,8 +73,10 @@ var time_ago_in_words = function(ts)
 
   var difference = Math.abs(to - from) / 1000;
 
-  var periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
-  var lengths = [60,60,24,7,4.35,12];
+  var immediate_string = 'just now';
+
+  var periods = [immediate_string, 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  var lengths = [10, 60,60,24,7,4.35,12];
 
   var tense   = 'ago';
 
@@ -85,7 +87,13 @@ var time_ago_in_words = function(ts)
 
   difference = Math.round(difference);
 
-  if(difference != 1) periods[i] += 's';
 
-  return difference + ' ' + periods[i] + ' ' + tense;
+  if(periods[i] == immediate_string)
+  {
+    return immediate_string;
+  } else {
+    if(difference != 1) periods[i] += 's';
+    
+    return difference + ' ' + periods[i] + ' ' + tense;
+  }
 };
