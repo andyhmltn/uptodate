@@ -66,8 +66,7 @@ var uptodate = function(options) {
    Feel free to send this output to other functions. For example:
      uptodate({ formatter: function(ts) { return time_ago_in_words(ts).toLowerCase() }; });
 */
-var time_ago_in_words = function(ts)
-{
+var time_ago_in_words = function(ts) {
   var from = new Date(ts);
   var to   = new Date();
 
