@@ -66,40 +66,26 @@ var uptodate = function(options) {
    Feel free to send this output to other functions. For example:
      uptodate({ formatter: function(ts) { return time_ago_in_words(ts).toLowerCase() }; });
 */
-var time_ago_in_words = function(ts) {
-  /* fetching a `from` and `to` time to work with deltas */
+var time_ago_in_words = function(ts)
+{
   var from = new Date(ts);
   var to   = new Date();
 
-  /* the distance (in seconds) with decimals (to match Ruby's `Time`) */
-  var distance = Math.abs(to - from) / 1000;
+  var difference = Math.abs(to - from) / 1000;
 
-  /* rounding off the distance in minutes and in seconds */
-  var distance_in_minutes = Math.round(distance / 60);
-  var distance_in_hours   = Math.round(distance_in_minutes / 60);
+  var periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  var lengths = [60,60,24,7,4.35,12];
 
-  /* generate the output (no i18n for now) */
-  if (distance_in_minutes < 1) {
-    /* in the rare chance that this case is hit, return 'Less than one minute ago' */
-    return 'Less than one minute ago';
+  var tense   = 'ago';
 
-  } else if (distance_in_minutes < 45) {
-    /* between 1 and 45 minutes, return the number of minutes */
-    return distance_in_minutes + ' minute' + (distance_in_minutes == 1 ? ' ' : 's ') + 'ago';
-
-  } else if (distance_in_minutes < 90) {
-    /* between 45 and 90 minutes, we are about one hour ago */
-    return 'About one hour ago'
-
-  } else if (distance_in_hours < 24) {
-    /* if it was less than a day ago */
-    var hours = Math.round(distance_in_minutes / 60);
-    return distance_in_hours + ' hours ago';
-
-  } else {
-    /* if it was more than a day ago, use days */
-    var days = Math.floor(distance_in_hours / 24);
-    return days + ' days ago';
-
+  for(var i = 0; difference > lengths[i] && i < lengths.length; i++)
+  {
+    difference /= lengths[i];
   }
+
+  difference = Math.round(difference);
+
+  if(difference != 1) periods[i] += 's';
+
+  return difference + ' ' + periods[i] + ' ' + tense;
 };
