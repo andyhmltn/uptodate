@@ -61,8 +61,18 @@ var uptodate = function(options) {
 /* time_ago_in_words method based on ActionView's helper of the same name
      see the following for more information
      http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-time_ago_in_words
-   This has been heavily modified to accomodate minutes and hours only
-  
+   
+   It works by cycling through all the periods and providing the difference (`today` - `ts`) is more than
+     that position in `lengths` it divides the difference by that same length until the conditions are no
+     longer met when it then returns the full string.
+     
+   This method allows for easy expansion of the current periods ['second', 'minute' ... ] etc. Just add
+     one to `periods` and add the length of the previous period (eg for decades, it would be 10 years)
+     to `lengths`.
+
+   The original PHP function that was converted over to JS can be found over @ css-tricks:
+     http://css-tricks.com/snippets/php/time-ago-function/
+
    Feel free to send this output to other functions. For example:
      uptodate({ formatter: function(ts) { return time_ago_in_words(ts).toLowerCase() }; });
 */
