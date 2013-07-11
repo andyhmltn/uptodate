@@ -79,16 +79,14 @@ var time_ago_in_words = function(ts) {
 
   var tense   = 'ago';
 
-  for(var i = 0; difference > lengths[i] && i < lengths.length; i++)
-  {
+  for(var i = 0; difference > lengths[i] && i < lengths.length; i++) {
     difference /= lengths[i];
   }
 
   difference = Math.round(difference);
 
 
-  if(periods[i] == immediate_string)
-  {
+  if(periods[i] == immediate_string) {
     return immediate_string;
   } else {
     if(difference != 1) periods[i] += 's';
