@@ -82,25 +82,20 @@ var time_ago_in_words = function(ts) {
 
   var difference = Math.abs(to - from) / 1000;
 
-  var immediate_string = 'just now';
+  if(difference < 60) return 'Less than one minute ago';
 
-  var periods = [immediate_string, 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
-  var lengths = [10, 60,60,24,7,4.35,12];
+  var periods = ['seconds','minute', 'hour', 'day', 'week', 'month', 'year'];
+  var lengths = [60,60,24,7,4.35,12];
 
   var tense   = 'ago';
 
-  for(var i = 0; difference > lengths[i] && i < lengths.length; i++) {
+  for(var i = 0; difference >= lengths[i] && i < lengths.length; i++) {
     difference /= lengths[i];
   }
 
   difference = Math.round(difference);
 
-
-  if(periods[i] == immediate_string) {
-    return immediate_string;
-  } else {
-    if(difference != 1) periods[i] += 's';
-    
-    return difference + ' ' + periods[i] + ' ' + tense;
-  }
+  if(difference != 1) periods[i] += 's';
+  
+  return difference + ' ' + periods[i] + ' ' + tense;
 };
