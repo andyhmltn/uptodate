@@ -18,9 +18,10 @@ describe("time_ago_in_words", function() {
     expect(time_ago_in_words(new Date() - 1000 * 95)).toContain('minutes');
   });
 
-  it("Displays Hours/Days/Months correctly", function() {
+  it("Displays Hours/Days/Weeks/Months correctly", function() {
     expect(time_ago_in_words(new Date() - (1000 * 60 * 60))).toContain('hour');
     expect(time_ago_in_words(new Date() - (1000 * 60 * 60 * 24))).toContain('day');
-    expect(time_ago_in_words(new Date() - (1000 * 60 * 60 * 24 * 31))).toContain('month');
+    expect(time_ago_in_words(new Date() - (1000 * 60 * 60 * 24 * 7))).toContain('week');
+    expect(time_ago_in_words(new Date() - (1000 * 60 * 60 * 24 * 7 * 4.5))).toContain('month');
   });
 });
