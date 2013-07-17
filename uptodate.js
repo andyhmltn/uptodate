@@ -88,27 +88,40 @@ var uptodate = function (options) {
      uptodate({ formatter: function(ts) { return time_ago_in_words(ts).toLowerCase() }; });
 */
 
-time_ago_in_words = function (ts) {
-  /* fetching a `from` and `to` time to work with deltas */
+var time_ago_in_words = function (ts) {
+  var from, to, difference, return_string, periods, lengths, tense, i;
 
-  if(difference < 60) 
-    if(difference > 30)
-      return '1 minute ago';
-    else
-      return 'Less than one minute ago';
+  from = new Date(ts);
+  to   = new Date();
 
-  var periods = ['seconds','minute', 'hour', 'day', 'week', 'month', 'year'];
-  var lengths = [60,60,24,7,4.35,12];
+  difference = Math.abs(to - from) / 1000;
+  return_string = '';
 
-  var tense   = 'ago';
+  periods = ['seconds', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+  lengths = [60, 60, 24, 7, 4.35, 12];
 
-  for(var i = 0; difference >= lengths[i] && i < lengths.length; i++) {
+  tense   = 'ago';
+
+  if (difference < 60) {
+    if (difference > 30) {
+      return_string = '1 minute ago';
+    } else {
+      return_string = 'Less than one minute ago';
+    }
+    return return_string
+  }
+
+  for (i = 0; difference >= lengths[i] && i < lengths.length; i++) {
     difference /= lengths[i];
   }
 
   difference = Math.round(difference);
 
-  if(difference != 1) periods[i] += 's';
-  
-  return difference + ' ' + periods[i] + ' ' + tense;
-}; 
+  if (difference !== 1) {
+    periods[i] += 's';
+  }
+
+  return_string = difference + ' ' + periods[i] + ' ' + tense;
+
+  return return_string;
+};
